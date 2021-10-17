@@ -1,27 +1,15 @@
 const inquirer = require('inquirer');
-const db = require('./db')
 const mysql = require('mysql2');
-require('console.table')
+require('console.table');
+require("dotenv").config();
+const db = mysql.createConnection({
+    host: "localhost", user: "root", password: process.env.DB_PASSWORD, database: process.env.DB_NAME
+})
 
-//direction for all chocies
-// var menuDirections = {
-//     "View All Departments": () => {
-//         console.log('viewing departments');
-//         viewAllDepartments();
-//     },
-
-//     "View All Roles": () => {
-//         console.log('viewing all roles');
-//         viewAllRoles();
-//     },
-
-//     "View All Employees": () => {
-//         console.log('viewing all employees');
-//         viewAllEmployees();
-//     },
-// //still need to add code for the 3 'add' options
-// };
-
+db.connect(function(err){
+    if (err) throw err;
+    mapChoices();
+})
 
 //first thing to come up when app is started
 function mapChoices() {
@@ -43,13 +31,13 @@ function mapChoices() {
         .then(({mapchoices}) => {
             switch (mapchoices) {
                 case 1:
-                    createIntern();
+                    viewAllDepartments();
                     break;
                 case "View All Roles":
-                    createEngineer();
+                    viewAllRoles();
                     break;
                 case "View All Employees":
-                    createIntern();
+                    viewAllEmployees();
                     break;
                 case "Add a Department":
                     createEngineer();
@@ -66,3 +54,10 @@ function mapChoices() {
         });
 }
 
+function viewAllDepartments() {
+    db.query("SELECT * FROM department", function(err, res) {
+        if (err) throw err;
+        console.table(res);
+        mapChoices();
+    })
+}
