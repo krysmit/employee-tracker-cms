@@ -4,23 +4,23 @@ const mysql = require('mysql2');
 require('console.table')
 
 //direction for all chocies
-var menuDirections = {
-    "View All Departments": () => {
-        console.log('viewing departments');
-        viewAllDepartments();
-    },
+// var menuDirections = {
+//     "View All Departments": () => {
+//         console.log('viewing departments');
+//         viewAllDepartments();
+//     },
 
-    "View All Roles": () => {
-        console.log('viewing all roles');
-        viewAllRoles();
-    },
+//     "View All Roles": () => {
+//         console.log('viewing all roles');
+//         viewAllRoles();
+//     },
 
-    "View All Employees": () => {
-        console.log('viewing all employees');
-        viewAllEmployees();
-    },
-//still need to add code for the 3 'add' options
-};
+//     "View All Employees": () => {
+//         console.log('viewing all employees');
+//         viewAllEmployees();
+//     },
+// //still need to add code for the 3 'add' options
+// };
 
 
 //first thing to come up when app is started
@@ -31,7 +31,7 @@ function mapChoices() {
             name: "mapchoices",
             message: "What would you like to do?",
             choices: [
-                "View All Departments",
+                {name: "View All Departments", value: 1},
                 "View All Roles",
                 "View All Employees",
                 "Add a Department",
@@ -42,7 +42,7 @@ function mapChoices() {
     ])
         .then(({mapchoices}) => {
             switch (mapchoices) {
-                case "View All Departments":
+                case 1:
                     createIntern();
                     break;
                 case "View All Roles":
@@ -65,9 +65,4 @@ function mapChoices() {
             }
         });
 }
-// can this work instead?
-// .then(choices => {
-//     mapChoices[mapchoices.option]();
-//     });
-
 
