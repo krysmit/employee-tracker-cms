@@ -1,0 +1,22 @@
+{
+  "name": "employee-tracker-cms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krysmit/employee-tracker-cms.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/krysmit/employee-tracker-cms/issues"
+  },
+  "homepage": "https://github.com/krysmit/employee-tracker-cms#readme",
+  "dependencies": {
+    "node": "^16.10.0"
+  }
+}
