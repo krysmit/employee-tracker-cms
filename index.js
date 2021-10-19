@@ -41,21 +41,21 @@ function mapChoices() {
                     viewAllEmployees();
                     break;
                 case "Add a Department":
-                    createEngineer();
+                    createDepartment();
                     break;
                 case "Add a Role":
-                    createIntern();
+                    createRole();
                     break;
                 case "Add an Employee":
                     createEmployee();
                     break;
                 default:
-                    createHTML();
+                   // createHTML();
             }
         });
 }
 
-//viewing options
+//viewing department option
 function viewAllDepartments() {
     db.query("SELECT * FROM department", function(err, res) {
         if (err) throw err;
@@ -63,6 +63,7 @@ function viewAllDepartments() {
         mapChoices();
     })
 }
+//viewing roles option
 function viewAllRoles() {
     db.query("SELECT * FROM roles", function(err, res) {
         if (err) throw err;
@@ -70,6 +71,7 @@ function viewAllRoles() {
         mapChoices();
     })
 }
+//viewing employee option
 function viewAllEmployees() {
     db.query("SELECT * FROM employee", function(err, res) {
         if (err) throw err;
@@ -78,8 +80,8 @@ function viewAllEmployees() {
     })
 }
 
-//adding options
-function createEngineer() {
+//adding employee option
+function createEmployee() {
     const newEmp = {
         firstName: "",
         lastName: "",
@@ -127,4 +129,67 @@ function createEngineer() {
                         }
                     }
                     newEmployee.roleID = empRoleID;
-    }
+                    const query = `
+                    SELECT DISTINCT concat(IFNULL(manager.first_name, 'None'), " ", IFNULL(manager.last_name,'None')) AS full_name, manager.id
+                    FROM employee 
+                    LEFT JOIN employee AS manager ON manager.id = employee.manager_id;`;
+                            db.query(query, (err, res) => {
+                                if (err) throw err;
+                                const managers = [];
+                                const managerNames = [];
+                                for (let i = 0; i < res.length; i++) {
+                                    managerNames.push(res[i].full_name);
+                                    managers.push({
+                                        id: res[i].id,
+                                        fullName: res[i].full_name
+                                    });
+                                }
+        
+                                inquirer
+                                    .prompt([{
+                                        type: "list",
+                                        name: "mgrSelect",
+                                        message: "Select Manager:",
+                                        choices: managerNames
+        
+                                    },
+        
+                                    ]).then(function (res) {
+                                        //get id of chosen manager
+                                        const chosenManager = answer.mgrSelect;
+                                        let chosenManagerID;
+                                        for (let i = 0; i < managers.length; i++) {
+                                            if (managers[i].fullName === chosenManager) {
+                                                chosenManagerID = managers[i].id;
+                                                break;
+                                            }
+                                        }
+                                        const query = "INSERT INTO employee SET ?";
+                                        db.query(query, {
+                                            first_name: newEmployee.firstName,
+                                            last_name: newEmployee.lastName,
+                                            role_id: newEmployee.roleID || 0,
+                                            manager_id: newEmployee.managerID || 0
+                                        }, function (err, res) {
+                                            if (err) {
+                                                console.log(err)
+                                            } else {
+                                                var action = `Employee ${newEmployee.firstName} ${newEmployee.lastName} added!`
+                                                Menu(action);
+                                            }
+        
+                                        })
+                                    })
+                            })
+                        })
+                })
+            })
+        }
+
+
+
+
+
+module.exports = {
+    viewAllDepartments, viewAllRoles, createEmployee, createEmployee
+        }        
