@@ -61,3 +61,17 @@ function viewAllDepartments() {
         mapChoices();
     })
 }
+function viewAllRoles() {
+    db.query("SELECT * FROM role", function(err, res) {
+        if (err) throw err;
+        console.table(res);
+        mapChoices();
+    })
+}
+function viewAllEmployees() {
+    db.query("SELECT * FROM employee", function(err, res) {
+        if (err) throw err;
+        console.table(res);
+        mapChoices();
+    })
+}
