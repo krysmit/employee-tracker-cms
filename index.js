@@ -47,7 +47,7 @@ function mapChoices() {
                     createIntern();
                     break;
                 case "Add an Employee":
-                    createEngineer();
+                    createEmployee();
                     break;
                 default:
                     createHTML();
@@ -79,3 +79,26 @@ function viewAllEmployees() {
 }
 
 //adding options
+function createEngineer() {
+    const newEmp = {
+        firstName: "",
+        lastName: "",
+        roleID: 0,
+        managerID: 0
+    };
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "first_name",
+            message: "What is the employee's first name?"
+        },
+        {
+            type: "input",
+            name: "last_name",
+            message: "What is the employee's last name?"
+        }
+    ]).then(res => {
+        newEmp.firstName = res.first_name;
+        newEmp.lastName = res.last_name;
+        const query = `SELECT role.title, role.id FROM role;`;
+})}
