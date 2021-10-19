@@ -64,7 +64,7 @@ function viewAllDepartments() {
     })
 }
 function viewAllRoles() {
-    db.query("SELECT * FROM role", function(err, res) {
+    db.query("SELECT * FROM roles", function(err, res) {
         if (err) throw err;
         console.table(res);
         mapChoices();
@@ -101,4 +101,30 @@ function createEngineer() {
         newEmp.firstName = res.first_name;
         newEmp.lastName = res.last_name;
         const query = `SELECT role.title, role.id FROM role;`;
-})}
+        db.query(query, (err, res) => {
+            if (err) throw err;
+            const roles = [];
+            const rolesNames = [];
+            for (let i = 0; i < res.length; i++) {
+                roles.push({
+                    id: res[i].id,
+                    title: res[i].title
+                });
+                rolesNames.push(res[i].title);
+            } inquirer.prompt([
+
+                {
+                    type: "list",
+                    name: "roles",
+                    message: "Select the employee's role:",
+                    choices: rolesNames
+                }]).then(answer => {
+                    const empRole = answer.roles;
+                    let empRoleID;
+                    for (let i = 0; i < roles.length; i++) {
+                        if (roles[i].title === empRole) {
+                            empRoleID = roles[i].id;
+                        }
+                    }
+                    newEmployee.roleID = empRoleID;
+    }
