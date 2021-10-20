@@ -91,7 +91,7 @@ function createDepartment() {
             }
         ]
     ).then(data => {
-        db.query("INSERT INTO departments SET ?", data, function(err, res) {
+        db.query("INSERT INTO department SET ?", data, function(err, res) {
             if (err) throw err;
             mapChoices();
         });
@@ -100,7 +100,7 @@ function createDepartment() {
 
 //adding role option
 function createRole() {
-    db.query("SELECT dept_name AS name, id AS value FROM departments", function(err, res) {
+    db.query("SELECT dept_name AS name, id AS value FROM department", function(err, res) {
         if(err)throw err;
         console.table(res);
 
@@ -154,7 +154,7 @@ function createEmployee() {
     ]).then(res => {
         newEmp.firstName = res.first_name;
         newEmp.lastName = res.last_name;
-        const query = `SELECT role.title, role.id FROM role;`;
+        const query = `SELECT roles.title, roles.id FROM roles;`;
         db.query(query, (err, res) => {
             if (err) throw err;
             const roles = [];
