@@ -80,6 +80,24 @@ function viewAllEmployees() {
     })
 }
 
+//adding department option
+function createDepartment() {
+    return inquirer.prompt(
+        [
+            {
+                type: "input",
+                name: "department",
+                message: "Enter Department Name",
+            }
+        ]
+    ).then(data => {
+        db.query("INSERT INTO departments SET ?", data, function(err, res) {
+            if (err) throw err;
+            mapChoices();
+        });
+    });
+};
+
 //adding employee option
 function createEmployee() {
     const newEmp = {
@@ -191,5 +209,5 @@ function createEmployee() {
 
 
 module.exports = {
-    viewAllDepartments, viewAllRoles, createEmployee, createEmployee
+    viewAllDepartments, viewAllRoles, createEmployee, createDepartment
         }        
