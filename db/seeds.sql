@@ -1,3 +1,5 @@
+USE tracker_db;
+
 INSERT INTO department (dept_name)
 VALUES("Store Manager"), ("Assistant Manager"), ("Shop Technician"), ("Sales Specialist");
        

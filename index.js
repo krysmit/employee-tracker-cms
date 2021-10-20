@@ -91,7 +91,7 @@ function createDepartment() {
             }
         ]
     ).then(data => {
-        db.query(`INSERT INTO department (dept_name) VALUES ('${data}')`, data, function(err, res) {
+        db.query(`INSERT INTO department (dept_name) VALUES '${data}''`, data, function(err, res) {
             if (err) throw err;
             mapChoices();
         });
