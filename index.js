@@ -17,36 +17,36 @@ function mapChoices() {
     inquirer.prompt([
         {
             type: "list",
-            name: "mapchoices",
+            name: "listchoices",
             message: "What would you like to do?",
             choices: [
                 {name: "View All Departments", value: 1},
-                "View All Roles",
-                "View All Employees",
-                "Add a Department",
-                "Add a Role",
-                "Add an Employee",
+                {name: "View All Roles", value: 2},
+                {name: "View All Employees", value: 3},
+                {name: "Add a Department", value: 4},
+                {name: "Add a Role", value: 5},
+                {name: "Add an Employee", value: 6},
             ],
         }
     ])
-        .then(({mapchoices}) => {
-            switch (mapchoices) {
+        .then(({listchoices}) => {
+            switch (listchoices) {
                 case 1:
                     viewAllDepartments();
                     break;
-                case "View All Roles":
+                case 2:
                     viewAllRoles();
                     break;
-                case "View All Employees":
+                case 3:
                     viewAllEmployees();
                     break;
-                case "Add a Department":
+                case 4:
                     createDepartment();
                     break;
-                case "Add a Role":
+                case 5:
                     createRole();
                     break;
-                case "Add an Employee":
+                case 6:
                     createEmployee();
                     break;
                 default:
@@ -87,13 +87,47 @@ function createDepartment() {
             {
                 type: "input",
                 name: "department",
-                message: "Enter Department Name",
+                message: "Enter the department name:",
             }
         ]
     ).then(data => {
         db.query("INSERT INTO departments SET ?", data, function(err, res) {
             if (err) throw err;
             mapChoices();
+        });
+    });
+};
+
+//adding role option
+function createRole() {
+    db.query("SELECT dept_name AS name, id AS value FROM departments", function(err, res) {
+        if(err)throw err;
+        console.table(res);
+
+        return inquirer.prompt(
+            [
+            {
+                type: "input",
+                name: "title",
+                mesage: "Enter the role title:",
+            },
+            {
+                type: "input",
+                name: "salary",
+                message: "Enter the role's sallary:",
+            },
+            {
+                type: "list",
+                name: "department_id",
+                message: "What department does this role exsist in?",
+                choices: res
+            },
+            ]
+        ).then(data => {
+            db.query("INSERT INTO roles SET ?", data, function(err, res) {
+                if (err) throw err;
+                mapChoices();
+            });
         });
     });
 };
@@ -209,5 +243,5 @@ function createEmployee() {
 
 
 module.exports = {
-    viewAllDepartments, viewAllRoles, createEmployee, createDepartment
+    viewAllDepartments, viewAllRoles, createEmployee, createDepartment, createRole
         }        
