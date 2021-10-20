@@ -59,7 +59,7 @@ function mapChoices() {
 function viewAllDepartments() {
     db.query("SELECT * FROM department", function(err, res) {
         if (err) throw err;
-        console.table(res);
+        console.table("List of Departments:", res);
         mapChoices();
     })
 }
@@ -67,7 +67,7 @@ function viewAllDepartments() {
 function viewAllRoles() {
     db.query("SELECT * FROM roles", function(err, res) {
         if (err) throw err;
-        console.table(res);
+        console.table("List of Roles:", res);
         mapChoices();
     })
 }
@@ -75,7 +75,7 @@ function viewAllRoles() {
 function viewAllEmployees() {
     db.query("SELECT * FROM employee", function(err, res) {
         if (err) throw err;
-        console.table(res);
+        console.table("List of Employees:", res);
         mapChoices();
     })
 }
