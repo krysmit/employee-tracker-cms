@@ -4,7 +4,7 @@
 This application allows the user to add to and view a database of their employees, departments, and roles.
 
 ## Application Demonstration
-
+https://watch.screencastify.com/v/SkqesuyF28ZpN7Qqmd58
 
 ## Features
 This app uses Inquierer, MySQL2, and the console.table package. 
