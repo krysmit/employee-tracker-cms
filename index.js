@@ -50,14 +50,14 @@ function mapChoices() {
                     createEmployee();
                     break;
                 default:
-                   // createHTML();
+                   
             }
         });
 }
 
 //viewing department option
 function viewAllDepartments() {
-    db.query("SELECT * FROM department", function(err, res) {
+    db.query(`SELECT * FROM department`, function(err, res) {
         if (err) throw err;
         console.table("List of Departments:", res);
         mapChoices();
@@ -65,7 +65,7 @@ function viewAllDepartments() {
 }
 //viewing roles option
 function viewAllRoles() {
-    db.query("SELECT * FROM roles", function(err, res) {
+    db.query(`SELECT * FROM roles`, function(err, res) {
         if (err) throw err;
         console.table("List of Roles:", res);
         mapChoices();
@@ -73,7 +73,7 @@ function viewAllRoles() {
 }
 //viewing employee option
 function viewAllEmployees() {
-    db.query("SELECT * FROM employee", function(err, res) {
+    db.query(`SELECT * FROM employee`, function(err, res) {
         if (err) throw err;
         console.table("List of Employees:", res);
         mapChoices();
@@ -91,7 +91,7 @@ function createDepartment() {
             }
         ]
     ).then(data => {
-        db.query("INSERT INTO department SET ?", data, function(err, res) {
+        db.query(`INSERT INTO department (dept_name) VALUES ('${data}')`, data, function(err, res) {
             if (err) throw err;
             mapChoices();
         });
@@ -100,7 +100,7 @@ function createDepartment() {
 
 //adding role option
 function createRole() {
-    db.query("SELECT dept_name AS name, id AS value FROM department", function(err, res) {
+    db.query(`SELECT dept_name AS name, id AS value FROM department`, function(err, res) {
         if(err)throw err;
         console.table(res);
 
@@ -124,7 +124,7 @@ function createRole() {
             },
             ]
         ).then(data => {
-            db.query("INSERT INTO roles SET ?", data, function(err, res) {
+            db.query(`INSERT INTO roles (title, salary, department_id) VALUES ('${data}')`, data, function(err, res) {
                 if (err) throw err;
                 mapChoices();
             });
@@ -180,7 +180,7 @@ function createEmployee() {
                             empRoleID = roles[i].id;
                         }
                     }
-                    newEmployee.roleID = empRoleID;
+                    newEmp.roleID = empRoleID;
                     const query = `
                     SELECT DISTINCT concat(IFNULL(manager.first_name, 'None'), " ", IFNULL(manager.last_name,'None')) AS full_name, manager.id
                     FROM employee 
@@ -218,15 +218,15 @@ function createEmployee() {
                                         }
                                         const query = "INSERT INTO employee SET ?";
                                         db.query(query, {
-                                            first_name: newEmployee.firstName,
-                                            last_name: newEmployee.lastName,
-                                            role_id: newEmployee.roleID || 0,
-                                            manager_id: newEmployee.managerID || 0
+                                            first_name: newEmp.firstName,
+                                            last_name: newEmp.lastName,
+                                            role_id: newEmp.roleID || 0,
+                                            manager_id: newEmp.managerID || 0
                                         }, function (err, res) {
                                             if (err) {
                                                 console.log(err)
                                             } else {
-                                                var action = `Employee ${newEmployee.firstName} ${newEmployee.lastName} added!`
+                                                var action = `Employee ${newEmp.firstName} ${newEmp.lastName} added!`
                                                 Menu(action);
                                             }
         
