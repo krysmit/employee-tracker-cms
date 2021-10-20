@@ -125,7 +125,8 @@ function createRole() {
             },
             ]
         ).then(data => {
-            db.query(`INSERT INTO roles (title, salary, department_id) VALUES ('${data}')`, data, function(err, res) {
+            console.log(data);
+            db.query(`INSERT INTO roles (title, salary, department_id) VALUES ('${data.title}', '${data.salary}', '${data.department_id}')`, data, function(err, res) {
                 if (err) throw err;
                 mapChoices();
             });
@@ -217,7 +218,7 @@ function createEmployee() {
                                                 break;
                                             }
                                         }
-                                        const query = "INSERT INTO employee SET ?";
+                                        const query = `INSERT INTO employee SET ?`;
                                         db.query(query, {
                                             first_name: newEmp.firstName,
                                             last_name: newEmp.lastName,
@@ -227,7 +228,7 @@ function createEmployee() {
                                             if (err) {
                                                 console.log(err)
                                             } else {
-                                                var action = `Employee ${newEmp.firstName} ${newEmp.lastName} added!`
+                                                var action = `Employee: '(${newEmp.firstName})' '(${newEmp.lastName})'`
                                                 Menu(action);
                                             }
         
