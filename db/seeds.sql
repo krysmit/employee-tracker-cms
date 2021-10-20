@@ -1,7 +1,7 @@
-INSERT INTO department (department_name)
-VALUES("Store Manager", "Assistant Manager", "Shop Technician", "Sales Specialist");
+INSERT INTO department (dept_name)
+VALUES("Store Manager"), ("Assistant Manager"), ("Shop Technician"), ("Sales Specialist");
        
-INSERT INTO role(title, salary, department_id)
+INSERT INTO roles(title, salary, department_id)
 VALUES('Store Manager', 75000, 1), ('Assistant Manager', 60000, 2), ('Sales Specialist', 40000, 3);
 
 INSERT INTO employee(first_name, last_name, role_id, manager_id)
